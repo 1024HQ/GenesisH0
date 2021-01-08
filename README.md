@@ -1,49 +1,56 @@
 # GenesisH0
-A python script for creating the parameters required for a unique genesis block. SHA256/scrypt/X11/X13/X15.
+นี่คือสคริปต์ python ที่ใช้ในการสร้าง genesis block. SHA256/scrypt/X11/X13/X15.
 
-### Dependencies
-    sudo pip install scrypt construct==2.5.2
+# Install
+    apt-get install python3
+    apt-get install python3-pip
+    sudo pip3 install scrypt construct==2.5.2
 
-To create geneses based on X11 algorithm you will also need to install the [xcoin-hash](https://github.com/lhartikk/xcoin-hash) module. 
-For X13 you will need the [x13_hash](https://github.com/sherlockcoin/X13-PythonHash) module and for X15 the [x15_hash](https://github.com/minings/x15_hash) module.
+
+module เสริมสำหรับทำอัลกลอลิทึ่มอื่น ๆ โดยให้ทำการติดตั้งเสริมเข้าไปจึงจะใช้งานได้
+x11 - https://github.com/1024HQ/x11-hash
+x13 - https://github.com/1024HQ/X13-PythonHash
+x15 - https://github.com/1024HQ/x15_hash
     
-### Examples
-Create the original genesis hash found in Bitcoin
+### สร้าง Unixtimestamp
+https://hi.in.th/unix/
 
-    python genesis.py -z "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks" -n 2083236893 -t 1231006505
+Command ในการสร้าง genesis hash
+
+    python genesis.py -z "1024 The Times 3/1/2021 Bitcoin 34k+ high price." -n 1024000000 -t 1610068203 -a scrypt -b 0x1e0ffff0
+
+โดยจะเป็นการสร้าง Genesis hash ด้วยประโยค "1024 The Times 3/1/2021 Bitcoin 34k+ high price."
+nonce = 1024000000
+unixtime = 1610068203 // จะเป็นบันทึกเวลาลงไปในบล็อคนี้ คือบล็อคแรกของเรานั่นเอง
+algorithm = scrypt // เข้ารหัสแบบ scrypt
+BITS = 0x1e0ffff0 // เป็นตัวที่เกี่ยวข้องกับค่าความยากฐานของระบบ โดย mainnet และ testnet จะใช้ 0x1e0ffff0 ส่วน Regression test จะใช้ 0x207fffff กรณีของ scrypt
+
 Output:
 
-    algorithm: sha256
-    merkle hash: 4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b
-    pszTimestamp: The Times 03/Jan/2009 Chancellor on brink of second bailout for banks
+    algorithm: scrypt
+    merkle hash: f8c5e867340192a1950e79df83fc4555eadb881cbcfd1c1189b91efdbd4ec9af
+    pszTimestamp: 1024 The Times 3/1/2021 Bitcoin 34k+ high price.
     pubkey: 04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f
-    time: 1231006505
-    bits: 0x1d00ffff
+    time: 1610068203
+    bits: 0x1e0ffff0
     Searching for genesis hash..
     genesis hash found!
-    nonce: 2083236893
-    genesis hash: 000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f
-Create the regtest genesis hash found in Bitcoin
+    nonce: 1365269
+    genesis hash: 8b1cbfb0bf82e0d36559e5585461ae65b3b4428dde8f196f4214d32c0c40127e
 
-    python genesis.py -z "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks" -n 2 -t 1296688602 -b 0x207fffff
+หลังจากสร้างบล็อคแรกได้แล้ว เราจะได้ pubkey ให้เรานำมาเก็บไว้ใช้ในการสร้างบล็อคให้กับ testnet ดังนี้
 
-Create the original genesis hash found in Litecoin
+    python genesis.py -z "1024 The Times 3/1/2021 Bitcoin 34k+ high price." -n 1024001024 -t 1610068203 -a scrypt -b 0x1e0ffff0 -p "04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f"
+    
+ต่อด้วย Regression test ปิดท้าย
+
+    python genesis.py -z "1024 The Times 3/1/2021 Bitcoin 34k+ high price." -n 0 -t 1610068203 -a scrypt -b 0x207fffff -p "04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f"
+
+ตัวอย่างการสร้าง genesis hash ของ Litecoin
 
     python genesis.py -a scrypt -z "NY Times 05/Oct/2011 Steve Jobs, Apple’s Visionary, Dies at 56" -p "040184710fa689ad5023690c80f3a49c8f13f8d45b8c857fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b51850b4acf21b179c45070ac7b03a9" -t 1317972665 -n 2084524493
     
-Create a unique genesis hash with custom pszTimestamp
-
-    python genesis.py -a scrypt -z "Time flies like an arrow. Fruit flies like a banana."
     
-Create the original genesis hash found in DarkCoin. (requires [xcoin-hash](https://github.com/lhartikk/xcoin-hash))
-
-    python genesis.py -a X11 -z "Wired 09/Jan/2014 The Grand Experiment Goes Live: Overstock.com Is Now Accepting Bitcoins" -t 1317972665 -p "040184710fa689ad5023690c80f3a49c8f13f8d45b8c857fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b51850b4acf21b179c45070ac7b03a9" -n 28917698 -t 1390095618 -v 5000000000
-
-Create the original genesis hash found in HiroCoin (requires [xcoin-hash](https://github.com/lhartikk/xcoin-hash)).
-
-    python genesis.py -a X11 -z "JapanToday 13/Mar/2014 Ways eyed to make planes easier to find in ocean" -p "040184710fa689ad5023690c80f3a49c8f13f8d45b8c857fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b51850b4acf21b179c45070ac7b03a9" -n 1234746574 -t 1394723131 -v 40000000000
-    
-
 
 ### Options
     Usage: genesis.py [options]
