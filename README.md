@@ -7,10 +7,10 @@
     sudo pip3 install scrypt construct==2.5.2
 
 
-module เสริมสำหรับทำอัลกลอลิทึ่มอื่น ๆ โดยให้ทำการติดตั้งเสริมเข้าไปจึงจะใช้งานได้
-x11 - https://github.com/1024HQ/x11-hash
-x13 - https://github.com/1024HQ/X13-PythonHash
-x15 - https://github.com/1024HQ/x15_hash
+module เสริมสำหรับทำอัลกลอลิทึ่มอื่น ๆ โดยให้ทำการติดตั้งเสริมเข้าไปจึงจะใช้งานได้<br>
+x11 - https://github.com/1024HQ/x11-hash<br>
+x13 - https://github.com/1024HQ/X13-PythonHash<br>
+x15 - https://github.com/1024HQ/x15_hash<br>
     
 ### สร้าง Unixtimestamp
 https://hi.in.th/unix/
