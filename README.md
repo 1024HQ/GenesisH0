@@ -1,4 +1,4 @@
-# GenesisH0
+# GenesisHash-Gen
 นี่คือสคริปต์ python ที่ใช้ในการสร้าง genesis block. SHA256/scrypt/X11/X13/X15.
 
 # Install
